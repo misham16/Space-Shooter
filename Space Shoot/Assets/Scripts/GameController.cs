@@ -12,15 +12,21 @@ public class GameController : MonoBehaviour
     public float spawnWait;
     public float startWait;
     public float waveWait;
+    public AudioSource musicSource;
+    public AudioClip musicClipOne;
+    public AudioClip musicClipTwo;
+    
 
     public Text scoreText;
     public Text restartText;
     public Text gameOverText;
     public Text winText;
+    public Text titleText;
 
-    private bool gameOver;
+    public bool gameOver;
     private bool restart;
-    private int score;
+    public int score;
+    
     void Start()
     {
         gameOver = false;
@@ -28,6 +34,7 @@ public class GameController : MonoBehaviour
         restartText.text = "";
         gameOverText.text = "";
         winText.text = "";
+        titleText.text = "";
         score = 0;
         UpdateScore();
         StartCoroutine(SpawnWaves());
@@ -39,7 +46,11 @@ public class GameController : MonoBehaviour
         {
             if(Input.GetKeyDown (KeyCode.F))
             {
-                SceneManager.LoadScene("Main");
+                SceneManager.LoadScene("final main");
+            }
+            if(Input.GetKeyDown (KeyCode.T))
+            {
+                SceneManager.LoadScene("Title");
             }
         }
         if (Input.GetKey("escape"))
@@ -65,6 +76,7 @@ public class GameController : MonoBehaviour
             {
                 restartText.text = "Press 'F' for Restart";
                 restart = true;
+                titleText.text = "Press 'T' for Title";
                 break;
             }
         }
@@ -83,11 +95,15 @@ public class GameController : MonoBehaviour
             winText.text = "You win!";
             gameOver = true;
             restart = true;
+            musicSource.clip = musicClipOne;
+            musicSource.Play ();
            }
     }
     public void GameOver ()
     {
         gameOverText.text = "Game created by Misha McLendon";
         gameOver = true;
+        musicSource.clip = musicClipTwo;
+        musicSource.Play ();
     }
 }
